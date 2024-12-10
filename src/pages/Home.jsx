@@ -16,17 +16,13 @@ function Home() {
 
 
     const handleClick = async (e) => {
-
-
         await addDoc(value, {
             name: name,
             price: price,
             address: address,
             location: location,
             description: description,
-            features: features
-        }
-        )
+            features: features })
         e.preventDefault();
     }
 
@@ -40,7 +36,7 @@ function Home() {
                 <div className="grid grid-cols-1 gap-x-8 gap-y-6 sm:grid-cols-2">
 
                     <fieldset className="">
-                        <label htmlFor="" className="block text-sm/6 font-semibold ">Product Name</label>
+                        <label htmlFor="" className="block text-sm text-purple-900 font-semibold ">Product Name</label>
                         <div className="mt-2.5">
                             <input
                                 type="text"
@@ -52,7 +48,7 @@ function Home() {
                     </fieldset>
 
                     <fieldset className="">
-                        <label htmlFor="" className="block text-sm/6 font-semibold ">Price</label>
+                        <label htmlFor="" className="block text-sm text-purple-900 font-semibold ">Price</label>
                         <div className="mt-2 5">
                             <input
                                 type="number"
@@ -64,7 +60,7 @@ function Home() {
                     </fieldset>
 
                     <fieldset className="">
-                        <label htmlFor="" className="block text-sm/6 font-semibold ">Address</label>
+                        <label htmlFor="" className="block text-sm text-purple-900 font-semibold ">Address</label>
                         <div className="mt-2 5">
                             <input type="text"
                                 onChange={(e) => setAddress(e.target.value)}
@@ -74,7 +70,7 @@ function Home() {
                         </div>
                     </fieldset>
                     <fieldset className="">
-                        <label htmlFor="" className="block text-sm/6 font-semibold ">Location</label>
+                        <label htmlFor="" className="block text-sm text-purple-900 font-semibold ">Location</label>
                         <div className="mt-2 5">
                             <input
                                 type="text"
@@ -85,7 +81,7 @@ function Home() {
                         </div>
                     </fieldset>
                     <fieldset className="">
-                        <label htmlFor="" className="block text-sm/6 font-semibold ">Description</label>
+                        <label htmlFor="" className="block text-sm text-purple-900 font-semibold ">Description</label>
                         <div className="mt-2 5">
                             <input
                                 type="text"
@@ -96,7 +92,7 @@ function Home() {
                         </div>
                     </fieldset>
                     <fieldset className="">
-                        <label htmlFor="" className="block text-sm/6 font-semibold ">Product Features</label>
+                        <label htmlFor="" className="block text-sm font-semibold text-purple-900 ">Product Features</label>
                         <div className="mt-2 5">
                             <input type="text"
                                 onChange={(e) => setFeatures(e.target.value)}
@@ -110,7 +106,7 @@ function Home() {
                     <button
                         type="submit"
                         onClick={handleClick}
-                        className=" w-full rounded-md bg-indigo-600 px-3.5 py-2.5 text-center text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
+                        className=" w-full rounded-md bg-purple-900 px-3.5 py-2.5 text-center text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
                     >
                         Submit
                     </button>
