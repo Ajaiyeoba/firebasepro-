@@ -15,17 +15,58 @@ function Home() {
     const value = collection(database, "prod");
 
 
-    const handleClick = async (e) => {
-        await addDoc(value, {
-            name: name,
-            price: price,
-            address: address,
-            location: location,
-            description: description,
-            features: features })
-        e.preventDefault();
-    }
+    // const handleClick = async (e) => {
+    //     await addDoc(value, {
+    //         name: name,
+    //         price: price,
+    //         address: address,
+    //         location: location,
+    //         description: description,
+    //         features: features })
+    //     e.preventDefault();
+    // }
+    // const handleClick = async (e) => {
+    //     e.preventDefault(); // Prevent form submission
+    //     try {
+    //         await addDoc(value, {
+    //             name,
+    //             price,
+    //             address,
+    //             location,
+    //             description,
+    //             features
+    //         });
+    //         console.log("Document successfully written!");
+    //     } catch (error) {
+    //         console.error("Error adding document: ", error);
+    //     }
+    // };
 
+    const handleClick = async (e) => {
+        e.preventDefault(); // Prevent form submission
+        try {
+            await addDoc(value, {
+                name,
+                price,
+                address,
+                location,
+                description,
+                features,
+            });
+            console.log("Document successfully written!");
+    
+            // Clear the form fields by resetting the state variables
+            setName('');
+            setPrice('');
+            setAddress('');
+            setLocation('');
+            setDescription('');
+            setFeatures('');
+        } catch (error) {
+            console.error("Error adding document: ", error);
+        }
+    };
+    
     return (
         <div className=" bg-white px-6 py-24 sm:py-32 lg:px-8">
             <div className="x-auto max-w-2xl text-center">
