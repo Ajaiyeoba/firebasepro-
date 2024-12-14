@@ -11,6 +11,7 @@
       fontFamily: {
         "poppins": ['Poppins', 'sans-serif'],
       },
+      display: ["print"],
     },
   },
   plugins: [],

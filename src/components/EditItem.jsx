@@ -11,51 +11,13 @@ function Home() {
     const [location, setLocation] = useState('')
     const [description, setDescription] = useState('')
     const [features, setFeatures] = useState('');
-    
-    const value = collection(database, "prod");
 
-
-    // const handleClick = async (e) => {
-    //     await addDoc(value, {
-    //         name: name,
-    //         price: price,
-    //         address: address,
-    //         location: location,
-    //         description: description,
-    //         features: features })
-    //     e.preventDefault();
-    // }
- 
-    const handleClick = async (e) => {
-        e.preventDefault(); // Prevent form submission
-        try {
-            await addDoc(value, {
-                name,
-                price,
-                address,
-                location,
-                description,
-                features,
-            });
-            // console.log("Document successfully written!");
-    
-            // Clear the form fields by resetting the state variables
-            setName('');
-            setPrice('');
-            setAddress('');
-            setLocation('');
-            setDescription('');
-            setFeatures('');
-        } catch (error) {
-             console.error("Error adding document: ", error);
-        }
-    };
-    
+   
     return (
         <div className=" bg-white px-6 py-24 sm:py-32 lg:px-8">
             <div className="x-auto max-w-2xl text-center">
                 <h2 className="text-4xl text-purple-900 font-semibold tracking-tight sm:text-5xl ">Property List</h2>
-                <p className="mt-2 text-lg/8 text-gray-600"> Fill in the products available</p>
+                <p className="mt-2 text-lg/8 text-gray-600"> Edit Property Data</p>
             </div>
             <form action="" className="mx-auto mt-16 max-w-xl sm:mt-20 ">
                 <div className="grid grid-cols-1 gap-x-8 gap-y-6 sm:grid-cols-2">
@@ -130,10 +92,10 @@ function Home() {
                 <div className="mt-10">
                     <button
                         type="submit"
-                        onClick={handleClick}
+                        onClick={}
                         className=" w-full rounded-md bg-purple-900 px-3.5 py-2.5 text-center text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
                     >
-                        Submit
+                        Update
                     </button>
                 </div>
             </form>

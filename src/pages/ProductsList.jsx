@@ -1,53 +1,318 @@
+//  import { Link } from "react-router-dom"; import { useEffect, useState } from "react"; import { collection, doc, getDocs, deleteDoc, updateDoc } from "firebase/firestore"; import database from "../firebase.js";
+//  function ProductsList() {
+//   const value = collection(database, "prod");
+//   const [val, setValue] = useState([]);
+//   const [name, setName] = useState("");
+//   const [price, setPrice] = useState("");
+//   const [address, setAddress] = useState("");
+//   const [location, setLocation] = useState("");
+//   const [description, setDescription] = useState("");
+//   const [features, setFeatures] = useState("");
+//   const [isEditing, setIsEditing] = useState(false);
+//   const [editId, setEditId] = useState(null);
+
+//   useEffect(() => {
+//     const getData = async () => {
+//       try {
+//         const dbval = await getDocs(value);
+//         const data = dbval.docs.map((doc) => ({
+//           ...doc.data(),
+//           id: doc.id,
+//         }));
+//         setValue(data);
+//       } catch (error) {
+//         console.error("Error fetching data: ", error);
+//       }
+//     };
+//     getData();
+//   }, []);
+
+//   const handleDelete = async (id) => {
+//     try {
+//       const deleteVal = doc(database, "prod", id);
+//       await deleteDoc(deleteVal);
+//       setValue((prevVal) => prevVal.filter((item) => item.id !== id));
+//     } catch (error) {
+//       console.error("Error deleting product: ", error);
+//     }
+//   };
+
+//   const handleEdit = (id, name, price, address, location, description, features) => {
+//     setEditId(id);
+//     setName(name);
+//     setPrice(price);
+//     setAddress(address);
+//     setLocation(location);
+//     setDescription(description);
+//     setFeatures(features);
+//     setIsEditing(true);
+//   };
+
+//   const handleUpdate = async (e) => {
+//     e.preventDefault();
+//     try {
+//       const docRef = doc(database, "prod", editId);
+//       await updateDoc(docRef, {
+//         name,
+//         price,
+//         address,
+//         location,
+//         description,
+//         features,
+//       });
+//       setValue((prevVal) =>
+//         prevVal.map((item) =>
+//           item.id === editId
+//             ? { ...item, name, price, address, location, description, features }
+//             : item
+//         )
+//       );
+//       alert("Product updated successfully!");
+//       setIsEditing(false);
+//     } catch (error) {
+//       console.error("Error updating product: ", error);
+//     }
+//   };
+
+//   return (
+//     <div className="bg-white px-6 py-24 sm:py-32 lg:px-8">
+//       <h1 className="text-center text-purple-900 text-4xl mb-4 font-semibold tracking-tight sm:text-5xl">
+//         Products List
+//       </h1>
+
+//       {val.length === 0 ? (
+//         <p className="text-center bg-purple-900 text-white rounded-sm border shadow-sm p-12 mt-4 text-xl font-bold tracking-light">
+//           No products available
+//         </p>
+//       ) : (
+//         <div className="overflow-x-auto">
+//           <table className="table-auto border-collapse w-full bg-white shadow-md rounded-lg overflow-hidden">
+//             <thead className="bg-purple-900 text-white">
+//               <tr>
+//                 <th className="px-4 py-2 text-left">Name</th>
+//                 <th className="px-4 py-2 text-left">Price</th>
+//                 <th className="px-4 py-2 text-left">Address</th>
+//                 <th className="px-4 py-2 text-left">Location</th>
+//                 <th className="px-4 py-2 text-left">Description</th>
+//                 <th className="px-4 py-2 text-left">Features</th>
+//                 <th className="px-4 py-2 text-left">Operation</th>
+//               </tr>
+//             </thead>
+//             <tbody>
+//               {val.map((item) => (
+//                 <tr key={item.id} className="border-t">
+//                   <td className="px-4 py-2">{item.name}</td>
+//                   <td className="px-4 py-2">${item.price}</td>
+//                   <td className="px-4 py-2">{item.address}</td>
+//                   <td className="px-4 py-2">{item.location}</td>
+//                   <td className="px-4 py-2">{item.description}</td>
+//                   <td className="px-4 py-2">{item.features}</td>
+//                   <td className="flex ml-2 space-x-2">
+//                     <button
+//                       onClick={() =>
+//                         handleEdit(
+//                           item.id,
+//                           item.name,
+//                           item.price,
+//                           item.address,
+//                           item.location,
+//                           item.description,
+//                           item.features
+//                         )
+//                       }
+//                       className="px-2 py-1 bg-blue-500 text-white rounded"
+//                     >
+//                       Edit
+//                     </button>
+//                     <button
+//                       className="px-2 py-1 bg-red-500 text-white rounded"
+//                       onClick={() => handleDelete(item.id)}
+//                     >
+//                       Delete
+//                     </button>
+//                   </td>
+//                 </tr>
+//               ))}
+//             </tbody>
+//           </table>
+//         </div>
+//       )}
+
+//       <Link to="/" className="text-xl text-purple-900 mt-24 block text-center">
+//         Add Product
+//       </Link>
+
+//       {isEditing && (
+//         <div className="fixed inset-0 bg-gray-500 bg-opacity-75 flex items-center justify-center z-50">
+//           <div className="bg-white p-6 rounded-lg shadow-lg w-96">
+//             <h2 className="text-xl font-semibold mb-4 text-center">Edit Product</h2>
+//             <form onSubmit={handleUpdate}>
+//               <div className="mb-4">
+//                 <label className="block text-gray-700">Name</label>
+//                 <input
+//                   type="text"
+//                   value={name}
+//                   onChange={(e) => setName(e.target.value)}
+//                   className="w-full px-4 py-2 border rounded-lg"
+//                 />
+//               </div>
+//               <div className="mb-4">
+//                 <label className="block text-gray-700">Price</label>
+//                 <input
+//                   type="number"
+//                   value={price}
+//                   onChange={(e) => setPrice(e.target.value)}
+//                   className="w-full px-4 py-2 border rounded-lg"
+//                 />
+//               </div>
+//               <div className="mb-4">
+//                 <label className="block text-gray-700">Address</label>
+//                 <input
+//                   type="text"
+//                   value={address}
+//                   onChange={(e) => setAddress(e.target.value)}
+//                   className="w-full px-4 py-2 border rounded-lg"
+//                 />
+//               </div>
+//               <div className="mb-4">
+//                 <label className="block text-gray-700">Location</label>
+//                 <input
+//                   type="text"
+//                   value={location}
+//                   onChange={(e) => setLocation(e.target.value)}
+//                   className="w-full px-4 py-2 border rounded-lg"
+//                 />
+//               </div>
+//               <div className="mb-4">
+//                 <label className="block text-gray-700">Description</label>
+//                 <textarea
+//                   value={description}
+//                   onChange={(e) => setDescription(e.target.value)}
+//                   className="w-full px-4 py-2 border rounded-lg"
+//                 ></textarea>
+//               </div>
+//               <div className="mb-4">
+//                 <label className="block text-gray-700">Features</label>
+//                 <input
+//                   type="text"
+//                   value={features}
+//                   onChange={(e) => setFeatures(e.target.value)}
+//                   className="w-full px-4 py-2 border rounded-lg"
+//                 />
+//               </div>
+//               <div className="flex justify-between">
+//                 <button
+//                   type="button"
+//                   onClick={() => setIsEditing(false)}
+//                   className="bg-gray-500 text-white px-4 py-2 rounded-lg"
+//                 >
+//                   Cancel
+//                 </button>
+//                 <button
+//                   type="submit"
+//                   className="bg-purple-900 text-white px-4 py-2 rounded-lg"
+//                 >
+//                   Save Changes
+//                 </button>
+//               </div>
+//             </form>
+//           </div>
+//         </div>
+//       )}
+//     </div>
+//   );
+// }
+
+// export default ProductsList;
+
 
 import { Link } from "react-router-dom";
 import { useEffect, useState } from "react";
-import { collection, doc,  getDocs, deleteDoc } from "firebase/firestore";
+import { collection, doc, getDocs, deleteDoc, updateDoc } from "firebase/firestore";
 import database from "../firebase.js";
 
 function ProductsList() {
-  //  create var for the database being imported
   const value = collection(database, "prod");
-  // variable for the object using state management
-  const  [val, setValue] = useState([]);
- 
+  const [val, setValue] = useState([]);
+  const [name, setName] = useState("");
+  const [price, setPrice] = useState("");
+  const [address, setAddress] = useState("");
+  const [location, setLocation] = useState("");
+  const [description, setDescription] = useState("");
+  const [features, setFeatures] = useState("");
+  const [isEditing, setIsEditing] = useState(false);
+  const [editId, setEditId] = useState(null);
+
   useEffect(() => {
     const getData = async () => {
       try {
         const dbval = await getDocs(value);
         const data = dbval.docs.map((doc) => ({
-          ...doc.data(), // Spread document data
-          id: doc.id,    // Add document ID
+          ...doc.data(),
+          id: doc.id,
         }));
-        setValue(data); // Set the fetched data to state
+        setValue(data);
       } catch (error) {
         console.error("Error fetching data: ", error);
       }
     };
-
     getData();
   }, []);
-  // Dependency array ensures this runs only once on component mount
 
-  //  block for delete function
- 
   const handleDelete = async (id) => {
-    const deleteVal = doc(database, "prod", id) // Reference the specific document
-    await deleteDoc(deleteVal); 
-    setValue((prevVal) => prevVal.filter((item) => item.id !== id));
-  }
-  const handleEdit = async (id,name, price, address, location, description , features ) => {
-      setPrice(price),
-      setName(name),
-      setAddress(address),
-      setLocation(location),
-      setDescription(description),
-      setFeatures(features),
-      setId(id)
-  }
+    try {
+      const deleteVal = doc(database, "prod", id);
+      await deleteDoc(deleteVal);
+      setValue((prevVal) => prevVal.filter((item) => item.id !== id));
+    } catch (error) {
+      console.error("Error deleting product: ", error);
+    }
+  };
+
+  const handleEdit = (id, name, price, address, location, description, features) => {
+    setEditId(id);
+    setName(name);
+    setPrice(price);
+    setAddress(address);
+    setLocation(location);
+    setDescription(description);
+    setFeatures(features);
+    setIsEditing(true);
+  };
+
+  const handleUpdate = async (e) => {
+    e.preventDefault();
+    try {
+      const docRef = doc(database, "prod", editId);
+      await updateDoc(docRef, {
+        name,
+        price,
+        address,
+        location,
+        description,
+        features,
+      });
+      setValue((prevVal) =>
+        prevVal.map((item) =>
+          item.id === editId
+            ? { ...item, name, price, address, location, description, features }
+            : item
+        )
+      );
+      alert("Product updated successfully!");
+      setIsEditing(false);
+    } catch (error) {
+      console.error("Error updating product: ", error);
+    }
+  };
+
+  const handlePrint = () => {
+    window.print();
+  };
 
   return (
     <div className="bg-white px-6 py-24 sm:py-32 lg:px-8">
-      <h1 className="text-center text-purple-900 text-4xl mb-4 font-semibold tracking-tight sm:text-5xl">
+      <h1 className="text-center print:hidden text-purple-900 text-4xl mb-4 font-semibold tracking-tight sm:text-5xl">
         Products List
       </h1>
 
@@ -55,55 +320,158 @@ function ProductsList() {
         <p className="text-center bg-purple-900 text-white rounded-sm border shadow-sm p-12 mt-4 text-xl font-bold tracking-light">
           No products available
         </p>
-      ) : 
-      // this block is to display 2 different compoennts depending on the state of the object
-       ( 
-        <div className="overflow-x-auto">
-          <table className="table-auto border-collapse w-full bg-white shadow-md rounded-lg overflow-hidden">
-            {/* Table to display data store in the fireStore */}
-            <thead className="bg-purple-900 text-white">
-              <tr>
-                <th className="px-4 py-2 text-left">Name</th>
-                <th className="px-4 py-2 text-left">Price</th>
-                <th className="px-4 py-2 text-left">Address</th>
-                <th className="px-4 py-2 text-left">Location</th>
-                <th className="px-4 py-2 text-left">Description</th>
-                <th className="px-4 py-2 text-left">Features</th>
-                <th className="px-4 py-2 text-left"> Operation</th>
-              </tr>
-            </thead>
-            <tbody>
-              {/* Table Data used to properly display the data using the map function */}
-              {val.map((item) => (
-                <tr key={item.id} className="border-t">
-                  <td className="px-4 py-2"
-                  >{item.name}</td>
-                  <td className="px-4 py-2">${item.price}</td>
-                  <td className="px-4 py-2">{item.address}</td>
-                  <td className="px-4 py-2">{item.location}</td>
-                  <td className="px-4 py-2">{item.description}</td>
-                  <td className="px-4 py-2">{item.features}</td>
-                  {/* Button dor the edit and delete */}
-                  <td className='flex ml-2'> <button onClick={() => handleEdit(value.id,
-                    item.name,
-                    item.price,
-                    item.address,
-                    item.location,
-                    item.description,
-                    item.features)}>
-                    Edit</button>
+      ) : (
+        <div>
+          
 
-                     <button className="mr-2 rounded bg-red-500 mx-auto" onClick={() => handleDelete(item.id)}> Delete</button></td>
+          <div className="overflow-x-auto print-area">
+            <table className="table-auto border-collapse w-full bg-white shadow-md rounded-lg overflow-hidden">
+              <thead className="bg-purple-900 text-white">
+                <tr>
+                  <th className="px-4 py-2 text-left">Name</th>
+                  <th className="px-4 py-2 text-left">Price</th>
+                  <th className="px-4 py-2 text-left">Address</th>
+                  <th className="px-4 py-2 text-left">Location</th>
+                  <th className="px-4 py-2 text-left">Description</th>
+                  <th className="px-4 py-2 text-left">Features</th>
+                  <th className="px-4 py-2 text-left">Operation</th>
+
                 </tr>
-              ))}
-            </tbody>
-          </table>
+              </thead>
+              <tbody>
+                {val.map((item) => (
+                  <tr key={item.id} className="border-t">
+                    <td className="px-4 py-2">{item.name}</td>
+                    <td className="px-4 py-2">${item.price}</td>
+                    <td className="px-4 py-2">{item.address}</td>
+                    <td className="px-4 py-2">{item.location}</td>
+                    <td className="px-4 py-2">{item.description}</td>
+                    <td className="px-4 py-2">{item.features}</td>
+                    <td className="flex ml-2 space-x-2">
+                     <button
+                       onClick={() =>
+                         handleEdit(
+                           item.id,
+                           item.name,
+                           item.price,
+                           item.address,
+                           item.location,
+                           item.description,
+                           item.features
+                         )
+                       }                    
+                         className="px-2 py-1 bg-blue-500 text-white rounded"
+                     >
+                       Edit
+                     </button>                     <button
+                       className="px-2 py-1 bg-red-500 text-white rounded"
+                       onClick={() => handleDelete(item.id)}
+                     >
+                      Delete
+                     </button>
+                   </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
         </div>
       )}
 
-      <Link to="/" className="text-xl text-purple-900 mt-24 block text-center">
+     <div className="block " >
+
+           <Link to="/" className="print-hidden mb-4 px-4 py-2  text-white rounded-lg bg-purple-900 mt-24 ">
         Add Product
       </Link>
+
+            <button
+            onClick={handlePrint}
+            className=" print-hidden mb-4 px-4 mx-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700"
+          >
+            Print Products
+          </button>
+     </div>
+
+
+
+
+      {isEditing && ( 
+        <div className="fixed inset-0 bg-gray-500 bg-opacity-75 flex items-center justify-center z-50">
+          <div className="bg-white p-6 rounded-lg shadow-lg w-96">
+            <h2 className="text-xl font-semibold mb-4 text-center">Edit Product</h2>
+            <form onSubmit={handleUpdate}>
+              <div className="mb-4">
+                <label className="block text-gray-700">Name</label>
+                <input
+                  type="text"
+                  value={name}
+                  onChange={(e) => setName(e.target.value)}
+                  className="w-full px-4 py-2 border rounded-lg"
+                />
+              </div>
+              <div className="mb-4">
+                <label className="block text-gray-700">Price</label>
+                <input
+                  type="number"
+                  value={price}
+                  onChange={(e) => setPrice(e.target.value)}
+                  className="w-full px-4 py-2 border rounded-lg"
+                />
+              </div>
+              <div className="mb-4">
+                <label className="block text-gray-700">Address</label>
+                <input
+                  type="text"
+                  value={address}
+                  onChange={(e) => setAddress(e.target.value)}
+                  className="w-full px-4 py-2 border rounded-lg"
+                />
+              </div>
+              <div className="mb-4">
+                <label className="block text-gray-700">Location</label>
+                <input
+                  type="text"
+                  value={location}
+                  onChange={(e) => setLocation(e.target.value)}
+                  className="w-full px-4 py-2 border rounded-lg"
+                />
+              </div>
+              <div className="mb-4">
+                <label className="block text-gray-700">Description</label>
+                <textarea
+                  value={description}
+                  onChange={(e) => setDescription(e.target.value)}
+                  className="w-full px-4 py-2 border rounded-lg"
+                ></textarea>
+              </div>
+              <div className="mb-4">
+                <label className="block text-gray-700">Features</label>
+                <input
+                  type="text"
+                  value={features}
+                  onChange={(e) => setFeatures(e.target.value)}
+                  className="w-full px-4 py-2 border rounded-lg"
+                />
+              </div>
+              <div className="flex justify-between">
+                <button
+                  type="button"
+                  onClick={() => setIsEditing(false)}
+                  className="bg-gray-500 text-white px-4 py-2 rounded-lg"
+                >
+                  Cancel
+                </button>
+                <button
+                  type="submit"
+                  className="bg-purple-900 text-white px-4 py-2 rounded-lg"
+                >
+                  Save Changes
+                </button>
+              </div>
+            </form>
+          </div>
+        </div>
+      )}
     </div>
   );
 }
