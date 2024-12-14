@@ -52,11 +52,15 @@ function Home() {
     };
     
     return (
-        <div className=" bg-white px-6 py-24 sm:py-32 lg:px-8">
-            <div className="x-auto max-w-2xl text-center">
-                <h2 className="text-4xl text-purple-900 font-semibold tracking-tight sm:text-5xl ">Property List</h2>
-                <p className="mt-2 text-lg/8 text-gray-600"> Fill in the products available</p>
-            </div>
+        <div className="bg-white px-6 py-24 sm:py-32 lg:px-8">
+        <div className="mx-auto max-w-2xl text-center">
+            <h2 className="text-4xl text-purple-900 font-semibold tracking-tight sm:text-5xl">
+                Property List
+            </h2>
+            <p className="mt-2 text-lg/8 text-gray-600">
+                Fill in the products available
+            </p>
+        </div>
             <form action="" className="mx-auto mt-16 max-w-xl sm:mt-20 ">
                 <div className="grid grid-cols-1 gap-x-8 gap-y-6 sm:grid-cols-2">
 
@@ -137,6 +141,8 @@ function Home() {
                     </button>
                 </div>
             </form>
+
+            <hr  className='bg-purple-500 mt-4'/>
             <Link to='/productslist' className="flex border w-24 h-full underline mt-12 px-3.5 py-2.5 ">
                 View Product  <ArrowDownRight02Icon className="w-5 text-gray-900" />
             </Link>
