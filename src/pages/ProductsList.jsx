@@ -13,6 +13,8 @@ function ProductsList() {
   const [description, setDescription] = useState("");
   const [features, setFeatures] = useState("");
 
+
+  //  what of trying ato add an image or multiple images!!! 
   // state management for the edit modalbox
   const [isEditing, setIsEditing] = useState(false);
   const [editId, setEditId] = useState(null);
